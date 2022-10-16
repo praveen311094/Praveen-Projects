@@ -1,4 +1,4 @@
--- // Praveen SQL 2 Mandatory Assignment //
+-- // Praveen SQL Movie Database //
 
 
 use moviedb;
@@ -174,4 +174,3 @@ NATURAL JOIN director
 NATURAL JOIN actors  -- Natural join is similar to inner join
 WHERE mov_time=(SELECT MIN(mov_time) FROM movie); -- MIN keyword used to find lowest movie duration from movie table -- where clause to satisfy condition
 
--- //End of Assignment
