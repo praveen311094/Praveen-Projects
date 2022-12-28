@@ -8,7 +8,7 @@
 
 
 
---  My partner and I want to come by each of the stores in person and meet the managers. 
+--  1. My partner and I want to come by each of the stores in person and meet the managers. 
 -- Please send over the managers’ names at each store, with the full address of each property (street address, district, city, and country).
 
  -- address, city, country, store
@@ -22,7 +22,7 @@ select first_name as manager_first_name,last_name as manager_last_name, address 
 from staff,address,city,country 
 where staff.staff_id=address.address_id and city.country_id=country.country_id and address.city_id=city.city_id;
 
---  I would like to get a better understanding of all of the inventory that would come along with the business.
+--  2. I would like to get a better understanding of all of the inventory that would come along with the business.
 --  Please pull together a list of each inventory item you have stocked, including the 
 --  store_id number, the inventory_id , the name of the film, the film’s rating, its rental rate and replacement cost.
 
@@ -33,7 +33,7 @@ select store_id,inventory_id, title as name_of_film, rating,rental_rate, replace
 from film, inventory
 where inventory.film_id=film.film_id;
 
---  From the same list of films you just pulled, please roll that data up and provide a summary level overview of your inventory. 
+--  3. From the same list of films you just pulled, please roll that data up and provide a summary level overview of your inventory. 
 -- We would like to know how many inventory items you have with each rating at each store.
 
 select * from film;
@@ -45,7 +45,7 @@ from film, inventory
 where inventory.film_id=film.film_id
 group by rating,store_id;
 
---  Similarly, we want to understand how diversified the inventory is in terms of replacement cost. 
+--  4. Similarly, we want to understand how diversified the inventory is in terms of replacement cost. 
 -- We want to see how big of a hit it would be if a certain category of film became unpopular at a certain store. 
 -- We would like to see the number of films, as well as the average replacement cost, and total replacement cost, sliced by store and film category.
 
@@ -72,7 +72,7 @@ order by
 	sum(film.replacement_cost) desc;
     
 
---  We want to make sure you folks have a good handle on who your customers are. 
+--  5. We want to make sure you folks have a good handle on who your customers are. 
 -- Please provide a list of all customer names, which store they go to, whether or not they are currently active, 
 -- and their full addresses street address, city, and country.
 
@@ -87,7 +87,7 @@ left join address on customer.address_id=address.address_id
 left join city on address.city_id=city.city_id
 left join country on city.country_id=country.country_id;
 
---  We would like to understand how much your customers are spending with you, and also to know who your most valuable customers are. 
+-- 6. We would like to understand how much your customers are spending with you, and also to know who your most valuable customers are. 
 -- Please pull together a list of customer names, their total lifetime rentals, and the sum of all payments you have collected from them. 
 -- It would be great to see this ordered on total lifetime value, with the most valuable customers at the top of the list.
 
@@ -106,7 +106,7 @@ where customer.customer_id = rental.customer_id and rental.rental_id = payment.r
 group by first_name,last_name
 order by total_payment_amount desc;
 
---  Need seperate counts of inventory items held at each of your two stores.
+--  7. Need seperate counts of inventory items held at each of your two stores.
 
 select * from inventory;
 select * from store;
@@ -121,7 +121,7 @@ select
 from inventory	
 group by store_id;
 
--- Need a count of active customers for each of your stores separately.
+-- 8. Need a count of active customers for each of your stores separately.
 
 select * from customer;
 
@@ -132,19 +132,19 @@ from customer
 where active = 1
 group by store_id;
 
--- Like to understand the replacement cost of your film. Provide replacement cost for film that is least expensive
+-- 9. Like to understand the replacement cost of your film. Provide replacement cost for film that is least expensive
 -- to replace, the most expensive to replace, and the average of all films you carry.
 
 select * from film;
 
 select min(replacement_cost) as least_exp, max(replacement_cost) as most_exp, avg(replacement_cost) as avg_exp from film;
 
--- Provide average payment processed as well as the maximum payment you have processed.
+-- 10. Provide average payment processed as well as the maximum payment you have processed.
 
 
 select avg(amount) as avg_payment,max(amount) as max_payment from payment;
 
--- Provide list of all customer identification values, with count of rentals they have made all-time,
+-- 11. Provide list of all customer identification values, with count of rentals they have made all-time,
 --  with your highest volume customers at the top of the list.
 
 select * from customer;
@@ -162,7 +162,7 @@ select
     count(rental_id) as nuumber_of_rentals
 from rental
 
--- Pull a list of each inventory item you have stocked, including the store_id number, the inventory_id, 
+-- 12. Pull a list of each inventory item you have stocked, including the store_id number, the inventory_id, 
 -- name of the film, the film's rating, its rental rate and replacement cost
 
 select * from film;
@@ -182,8 +182,8 @@ select
 from inventory
 	left join film on inventory.film_id = film.film_id;
     
-    -- Provide list of advisor and investor names in one table. Could you please note whether they are an investor 
--- or an advisor, and for the investors, it would be good to include which company they work with 
+    -- 13. Provide list of advisor and investor names in one table. Could you please note whether they are an investor 
+    -- or an advisor, and for the investors, it would be good to include which company they work with 
 
 select * from advisor;
 select * from investor;
@@ -207,25 +207,25 @@ select
 from advisor;
 
 
--- We will need a list of all staff members, including their first and last names, email addresses, and the store identification number where they work. 
+-- 14. We will need a list of all staff members, including their first and last names, email addresses, and the store identification number where they work. 
 
 select first_name,last_name,email,store_id from staff;
 
--- We will need separate counts of inventory items held at each of your two stores.
+-- 15. We will need separate counts of inventory items held at each of your two stores.
 
 select store_id, count(inventory_id) as inventory_items from inventory group by store_id;
 
--- We will need a count of active customers for each of your stores. Separately, please. 
+-- 16. We will need a count of active customers for each of your stores. Separately, please. 
 
 select * from customer;
 
 select store_id,count(customer_id) as active_cust from customer where active=1 group by store_id;
 
--- In order to assess the liability of a data breach, we will need you to provide a count of all customer email addresses stored in the database. 
+-- 17. In order to assess the liability of a data breach, we will need you to provide a count of all customer email addresses stored in the database. 
 
 select count(email) from customer;
 
--- We are interested in how diverse your film offering is as a means of understanding how likely you are to keep customers engaged in the future. 
+-- 18. We are interested in how diverse your film offering is as a means of understanding how likely you are to keep customers engaged in the future. 
 -- Please provide a count of unique film titles you have in inventory at each store and then provide a count of the unique categories of films you provide. 
 
 
@@ -242,7 +242,7 @@ select
 	count(distinct name) as unique_categories
 from category;  
 
--- Please provide a list of all customer identification values, with a count of rentals they have made all-time, with your highest volume of customers at the top of the list.
+-- 19. Please provide a list of all customer identification values, with a count of rentals they have made all-time, with your highest volume of customers at the top of the list.
 
 select * from customer;
 select * from rental;
@@ -252,9 +252,8 @@ select * from rental;
 	order by count(rental_id) desc;
 
 
--- MAVENMOVIES ASSIGNMENT 3
 
--- Do we have actors in the actor table that share the full name and if yes display those shared names.(***************)
+-- 20. Do we have actors in the actor table that share the full name and if yes display those shared names.(***************)
 
 select * from actor;
 
@@ -268,7 +267,7 @@ FROM actor a1 JOIN actor a2
 ON a1.actor_id <> a2.actor_id AND a1.first_name = a2.first_name AND a1.last_name = a2.last_name;
 
 
--- Return the customer IDs of customers who have spent at least $110 with the staff member who has an ID of 2.
+-- 21. Return the customer IDs of customers who have spent at least $110 with the staff member who has an ID of 2.
 
 select * from payment;
 
@@ -277,42 +276,42 @@ where staff_id = 2
 group by customer_id
 having sum(amount)>=110;
 
--- How many films begin with the letter J?
+-- 22. How many films begin with the letter J?
 
 select * from film;
 
 select count(title) as films from film
 where title like 'J%';
 
--- What customer has the highest customer ID number whose name starts with an 'E' and has an address ID lower than 500?
+-- 23. What customer has the highest customer ID number whose name starts with an 'E' and has an address ID lower than 500?
 
 select first_name,last_name,customer_id from customer
 where first_name like 'E%' and address_id < 500
 order by customer_id desc limit 1;
 
--- How many films have the word Truman somewhere in the title?
+-- 24. How many films have the word Truman somewhere in the title?
 
 select count(title) from film
 where title like "%Truman%";
 
--- Display the total amount paid by all customers in the payment table.
+-- 25. Display the total amount paid by all customers in the payment table.
 
 select * from payment;
 
 select sum(amount) from payment;
 
--- Display the total amount paid by each customer in the payment table.
+-- 26. Display the total amount paid by each customer in the payment table.
 
 select customer_id, sum(amount) from payment
 group by customer_id;
 
--- What is the highest total_payment done?
+-- 27. What is the highest total_payment done?
 
 select customer_id, sum(amount) as total_payment from payment
 group by customer_id
 order by total_payment desc limit 1;
 
--- Which customers have not rented any movies so far
+-- 28. Which customers have not rented any movies so far
 
 select * from customer;
 select * from rental;
@@ -320,138 +319,9 @@ select * from rental;
 select customer_id, first_name, last_name from customer where
 customer_id not in(select distinct customer_id from rental);
 
--- How many payment transactions were greater than $5.00?
+-- 29. How many payment transactions were greater than $5.00?
 
 select count(amount) from payment
 where amount>5;
 
-
--------------------------------- GUIDED PROJECT ON COUNTRY DATABASE ------------------------------------
-
--- Get the list of the 3 most populated cities.
-
-select * from cities;
-
-select name, population from cities
-group by name
-order by population desc limit 3;
-
-SELECT * 
-FROM `cities` 
-ORDER BY `population` DESC 
-LIMIT 3;
-
--- Get the list of the 3 cities with the smallest surface.
-
-
-select name, surface from cities
-order by surface limit 3;
-
-SELECT * 
-FROM `cities` 
-ORDER BY `surface` ASC 
-LIMIT 3;
-
--- Get the list of states whose department number starts with “97”.
-
-select * from states;
-
-select state_code,state_name from states
-where state_code like '97%';
-
--- Get the names of the 3 most populated cities, as well as the name of the associated state.
-
-select * from cities;
-select * from states;
-
-select name,population,state_name from cities 
-left join states on cities.city_state=states.state_code
-group by name
-order by population desc limit 3;
-
-
-select name,population,state_name from cities 
-left join states on cities.city_state=states.state_code
-group by name
-order by population limit 3;	
-
--- Get the list of the name of each State, associated with its code and the number of cities within these States, 
--- by sorting in order to get in priority the States which have the largest number of cities.
-
-
-select state_code, state_name, count(cities.city_state) as cities_included from states,cities
-where cities.city_state=states.state_code
-group by state_code
-order by cities_included desc;
-
-SELECT state_name, city_state, COUNT(*) AS nbr_items 
-FROM `cities` 
-LEFT JOIN states ON state_code = city_state
-GROUP BY city_state
-ORDER BY `nbr_items` DESC;
-
-select * from cities;
-select * from states;
-
--- Get the list of the 3 largest States, in terms of surface area.
-
-SELECT state_name, city_state, SUM(`surface`) AS state_surface 
-FROM `cities` 
-LEFT JOIN states ON state_code = city_state
-GROUP BY city_state
-ORDER BY state_surface DESC
-LIMIT 3;
-
-select state_name, SUM(`surface`) AS state_surface from states left join
-cities on state_code=city_state
-GROUP BY city_state
-order by state_surface desc limit 3;
-
-select * from cities;
-select * from states;
-
--- Count the number of cities whose names begin with “San”.
-
-select count(name) as cities from cities where name like 'San%';
-
-select count(name) as cities from cities where name like '%o';
-
--- Get the list of cities whose surface is greater than the average surface.
-
-select Avg(surface) as avg_surf from cities;
-
-select * from cities;
-
-select name from cities where surface > (select Avg(surface) from cities);
-
--- Get the list of States with more than 1 million residents.
-
-select name, sum(population) from cities
-group by city_state
-having sum(population)>1000000;
-
--- Replace the dashes with a blank space, for all cities beginning with “SAN-” (inside the column containing the upper case names).
-
-update cities
-set name = replace(name, "-"," ")
-where name like "SAN-%";
-
-
- 
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+--END OF PROJECT--
